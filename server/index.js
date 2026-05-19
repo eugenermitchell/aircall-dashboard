@@ -32,6 +32,7 @@ app.get('/calls-today', async (req, res) => {
         let inboundAnswered = 0;
         let inboundMissed = 0;
         let inboundOther = 0;
+        let inboundOtherCalls = [];
         let totalWaitSeconds = 0;
         let answeredWaitCount = 0;
 
@@ -75,7 +76,20 @@ app.get('/calls-today', async (req, res) => {
                     }
                     else {
                         inboundOther++;
-                    }
+
+                         inboundOtherCalls.push({
+                            id: call.id,
+                             status: call.status,
+                             direction: call.direction,
+                              started_at: call.started_at,
+                             answered_at: call.answered_at,
+                             ended_at: call.ended_at,
+                             duration: call.duration,
+                              raw_digits: call.raw_digits,
+                              user: call.user?.name,
+                             number: call.number?.name
+    });
+}
                 }
 
                 if (call.direction === 'outbound') {
@@ -98,6 +112,7 @@ app.get('/calls-today', async (req, res) => {
             inboundAnswered,
             inboundMissed,
             inboundOther,
+            inboundOtherCalls,
             averageWaitSeconds: answeredWaitCount
                 ? Math.round(totalWaitSeconds / answeredWaitCount)
                 : 0,
