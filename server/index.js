@@ -8,8 +8,6 @@ const app = express();
 
 app.use(cors());
 
-const PORT = 3001;
-
 /*
 ========================================
 CALLS TODAY
