@@ -20,7 +20,7 @@ function App() {
     const interval = setInterval(() => {
       fetchStats();
       fetchUsers();
-    }, 30000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
