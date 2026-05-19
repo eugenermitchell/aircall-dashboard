@@ -13,17 +13,25 @@ function App() {
 
   const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    fetchStats();
+useEffect(() => {
+  fetchUsers();
+
+  const usersInterval = setInterval(() => {
     fetchUsers();
+  }, 3000);
 
-    const interval = setInterval(() => {
-      fetchStats();
-      fetchUsers();
-    }, 3000);
+  return () => clearInterval(usersInterval);
+}, []);
 
-    return () => clearInterval(interval);
-  }, []);
+useEffect(() => {
+  fetchStats();
+
+  const statsInterval = setInterval(() => {
+    fetchStats();
+  }, 30000);
+
+  return () => clearInterval(statsInterval);
+}, []);
 
   const fetchStats = async () => {
     const response = await axios.get('https://aircall-dashboard-api.onrender.com/calls-today');
