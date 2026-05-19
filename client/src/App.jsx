@@ -8,7 +8,8 @@ function App() {
     inboundCalls: 0,
     outboundCalls: 0,
     inboundAnswered: 0,
-    inboundMissed: 0
+    inboundMissed: 0,
+    averageWaitSeconds: 0
   });
 
   const [users, setUsers] = useState([]);
@@ -62,7 +63,7 @@ useEffect(() => {
         <div className="card"><h2>Inbound</h2><p>{stats.inboundCalls}</p></div>
         <div className="card"><h2>Outbound</h2><p>{stats.outboundCalls}</p></div>
         <div className="card"><h2>Answered</h2><p>{stats.inboundAnswered}</p></div>
-        <div className="card"><h2>Missed</h2><p>{stats.inboundMissed}</p></div>
+       <div className="card"><h2>Avg Wait</h2><p>{stats.averageWaitSeconds}s</p></div>
       </div>
 
       <div className="agents-section">

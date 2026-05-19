@@ -32,6 +32,8 @@ app.get('/calls-today', async (req, res) => {
         let inboundAnswered = 0;
         let inboundMissed = 0;
         let inboundOther = 0;
+        let totalWaitSeconds = 0;
+        let answeredWaitCount = 0;
 
         let page = 1;
 
@@ -60,9 +62,14 @@ app.get('/calls-today', async (req, res) => {
                 if (call.direction === 'inbound') {
                     inboundCalls++;
 
-                    if (call.status === 'done') {
-                        inboundAnswered++;
+                if (call.status === 'done') {
+                     inboundAnswered++;
+
+                  if (call.started_at && call.answered_at) {
+                     totalWaitSeconds += call.answered_at - call.started_at;
+                       answeredWaitCount++;
                     }
+}
                     else if (call.status === 'missed') {
                         inboundMissed++;
                     }
@@ -91,8 +98,11 @@ app.get('/calls-today', async (req, res) => {
             inboundAnswered,
             inboundMissed,
             inboundOther,
+            averageWaitSeconds: answeredWaitCount
+                ? Math.round(totalWaitSeconds / answeredWaitCount)
+                : 0,
             note: "This counts all call records returned by Aircall since local midnight."
-        });
+        }); 
 
     } catch (error) {
 
