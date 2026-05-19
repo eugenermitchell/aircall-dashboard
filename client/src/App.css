@@ -1,0 +1,108 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #111827;
+  color: white;
+}
+
+.dashboard {
+  padding: 30px;
+}
+
+h1 {
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 4rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.card {
+  background-color: #1f2937;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: #9ca3af;
+}
+
+.card p {
+  font-size: 3rem;
+  margin: 10px 0 0 0;
+  font-weight: bold;
+}
+
+.agents-section {
+  background-color: #1f2937;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.agents-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.agent-card {
+  background-color: #374151;
+  padding: 10px 14px;
+  border-radius: 8px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.agent-name {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.85rem;
+}
+
+.status.always_opened {
+  background-color: #14532d;
+  color: #86efac;
+}
+
+.status.always_closed {
+  background-color: #374151;
+  color: #d1d5db;
+}
+
+.status.out_for_lunch {
+  background-color: #713f12;
+  color: #fde68a;
+}
+
+.status.doing_back_office {
+  background-color: #1e3a8a;
+  color: #bfdbfe;
+}
+
+.status.on_a_break {
+  background-color: #7f1d1d;
+  color: #fca5a5;
+}
+
+.status.in_training {
+  background-color: #581c87;
+  color: #e9d5ff;
+}
