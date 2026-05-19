@@ -20,18 +20,18 @@ function App() {
     const interval = setInterval(() => {
       fetchStats();
       fetchUsers();
-    }, 15000);
+    }, 30000);
 
     return () => clearInterval(interval);
   }, []);
 
   const fetchStats = async () => {
-    const response = await axios.get('http://localhost:3001/calls-today');
+    const response = await axios.get('https://aircall-dashboard-api.onrender.com/calls-today');
     setStats(response.data);
   };
 
   const fetchUsers = async () => {
-    const response = await axios.get('http://localhost:3001/users');
+    const response = await axios.get('https://aircall-dashboard-api.onrender.com/users');
     setUsers(response.data.users);
   };
 
