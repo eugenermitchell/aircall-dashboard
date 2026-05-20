@@ -427,6 +427,26 @@ app.get('/debug-user/:id', async (req, res) => {
         });
     }
 });
+app.get('/me', async (req, res) => {
+    try {
+        const response = await axios.get(
+            'https://api.aircall.io/v1/users/self',
+            {
+                auth: {
+                    username: process.env.AIRCALL_ID,
+                    password: process.env.AIRCALL_TOKEN
+                }
+            }
+        );
+
+        res.json(response.data);
+
+    } catch (error) {
+        res.status(500).json({
+            error: error.response?.data || error.message
+        });
+    }
+});
 app.get('/debug/search-calls', async (req, res) => {
   try {
     const response = await axios.post(
