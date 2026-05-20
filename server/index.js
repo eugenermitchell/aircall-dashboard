@@ -134,8 +134,8 @@ app.get('/calls-today', async (req, res) => {
 }
                                 }
                                 const isCallbackRequest = call.tags?.some(
-                    tag => tag.name === 'Callback Request'
-                );
+                                 tag => tag.name === 'Callback Request'
+                                ) || false;
                 if (isCallbackRequest) {
                     callbackRequests++;
                 }
