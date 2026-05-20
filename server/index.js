@@ -224,7 +224,7 @@ console.log('Stats cache refreshed');
 
         cachedStats.error = 'Failed to refresh stats cache';
     }
-});
+};
 app.get('/calls-today', (req, res) => {
     res.json(cachedStats);
 });
