@@ -119,8 +119,32 @@ app.get('/calls-today', async (req, res) => {
                              number: call.number?.name
     });
 }
-                }
+                                }
+                                const isCallbackRequest = call.tags?.some(
+                    tag => tag.name === 'Callback Request'
+                );
 
+                if (
+                    call.direction === 'inbound' &&
+                    isCallbackRequest
+                ) {
+                    const callbackCompleted = calls.some(otherCall =>
+                        otherCall.direction === 'outbound' &&
+                        otherCall.raw_digits === call.raw_digits &&
+                        otherCall.started_at > call.ended_at
+                    );
+
+                    if (!callbackCompleted) {
+                        activeCalls.push({
+                            id: call.id,
+                            label: 'Callback Pending',
+                            type: 'callback',
+                            seconds: Math.floor(Date.now() / 1000) - call.ended_at,
+                            raw_digits: call.raw_digits,
+                            number: call.number?.name
+                        });
+                    }
+                }
                 if (call.direction === 'outbound') {
                     outboundCalls++;
                 }
