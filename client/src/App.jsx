@@ -62,7 +62,7 @@ function App() {
 
       <div className="stats-grid">
         <div className="card"><h2>Total Calls</h2><p>{stats.totalCalls}</p></div>
-        <div className="card"><h2>I1nbound</h2><p>{stats.inboundCalls}</p></div>
+        <div className="card"><h2>Inbound</h2><p>{stats.inboundCalls}</p></div>
         <div className="card"><h2>Outbound</h2><p>{stats.outboundCalls}</p></div>
         <div className="card"><h2>Completed</h2><p>{stats.inboundAnswered}</p></div>
         <div className="card"><h2>Avg Wait</h2><p>{stats.averageWaitSeconds}s</p></div>
