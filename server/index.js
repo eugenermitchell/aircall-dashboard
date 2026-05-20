@@ -367,7 +367,7 @@ app.get('/recent-call-statuses', async (req, res) => {
 const refreshUsersCache = async () => {
     try {
         const response = await axios.get(
-            'https://api.aircall.io/v1/numbers/1228321',
+            'https://api.aircall.io/v1/users',
             {
                 auth: {
                     username: process.env.AIRCALL_ID,
@@ -424,26 +424,6 @@ app.get('/debug-user/:id', async (req, res) => {
 
         res.status(500).json({
             error: 'Failed to fetch single user'
-        });
-    }
-});
-app.get('/me', async (req, res) => {
-    try {
-        const response = await axios.get(
-            'https://api.aircall.io/v1/users/self',
-            {
-                auth: {
-                    username: process.env.AIRCALL_ID,
-                    password: process.env.AIRCALL_TOKEN
-                }
-            }
-        );
-
-        res.json(response.data);
-
-    } catch (error) {
-        res.status(500).json({
-            error: error.response?.data || error.message
         });
     }
 });
