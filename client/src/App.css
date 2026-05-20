@@ -168,3 +168,11 @@ h1 {
   padding: 6px 10px;
   border-radius: 10px;
 }
+h1,
+h2 {
+  color: white !important;
+}
+
+.dashboard {
+  color: white;
+}
