@@ -8,6 +8,8 @@ const app = express();
 
 app.use(cors());
 
+let userStatusStartTimes = {};
+
 let cachedUsers = {
     count: 0,
     users: [],
@@ -379,7 +381,7 @@ const refreshUsersCache = async () => {
         response.data.number?.users ||
         response.data.users ||
         [];
-        
+
 const extraUserResponse = await axios.get(
     'https://api.aircall.io/v1/users/1888964',
     {
@@ -392,14 +394,29 @@ const extraUserResponse = await axios.get(
 
 users.push(extraUserResponse.data.user);
 
-const simplifiedUsers = users.map(user => ({
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    availability_status: user.availability_status,
-    substatus: user.state,
-    available: user.available
-}));
+const now = Math.floor(Date.now() / 1000);
+
+const simplifiedUsers = users.map(user => {
+    const currentStatus = user.state;
+    const previousStatus = userStatusStartTimes[user.id];
+
+    if (!previousStatus || previousStatus.status !== currentStatus) {
+        userStatusStartTimes[user.id] = {
+            status: currentStatus,
+            startedAt: now
+        };
+    }
+
+    return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        availability_status: user.availability_status,
+        substatus: currentStatus,
+        available: user.available,
+        statusSeconds: now - userStatusStartTimes[user.id].startedAt
+    };
+});
 
             cachedUsers = {
                 count: simplifiedUsers.length,

@@ -121,6 +121,10 @@ function App() {
                 <div className="agent-card" key={user.id}>
                   <div className="agent-name">{user.name}</div>
                   <div className={`status ${user.substatus}`}>
+                  <div className="status-time">
+                    {Math.floor(user.statusSeconds / 60)}:
+                    {String(user.statusSeconds % 60).padStart(2, '0')}
+                  </div>
                     {formatSubstatus(user.substatus)}
                   </div>
                 </div>
