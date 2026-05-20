@@ -64,7 +64,7 @@ useEffect(() => {
         <div className="card"><h2>Total Calls</h2><p>{stats.totalCalls}</p></div>
         <div className="card"><h2>Inbound</h2><p>{stats.inboundCalls}</p></div>
         <div className="card"><h2>Outbound</h2><p>{stats.outboundCalls}</p></div>
-        <div className="card"><h2>Answered</h2><p>{stats.inboundAnswered}</p></div>
+        <div className="card"><h2>Completed</h2><p>{stats.inboundAnswered}</p></div>
        <div className="card"><h2>Avg Wait</h2><p>{stats.averageWaitSeconds}s</p></div>
        <div className="card"><h2>Active Calls</h2><p>{stats.activeCalls}</p></div>
       </div>
