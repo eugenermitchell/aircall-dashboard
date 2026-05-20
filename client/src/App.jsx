@@ -10,6 +10,8 @@ function App() {
     inboundAnswered: 0,
     inboundMissed: 0,
     averageWaitSeconds: 0
+    activeCalls: 0,
+    currentCalls: []
   });
 
   const [users, setUsers] = useState([]);
@@ -64,8 +66,22 @@ useEffect(() => {
         <div className="card"><h2>Outbound</h2><p>{stats.outboundCalls}</p></div>
         <div className="card"><h2>Answered</h2><p>{stats.inboundAnswered}</p></div>
        <div className="card"><h2>Avg Wait</h2><p>{stats.averageWaitSeconds}s</p></div>
+       <div className="card"><h2>Active Calls</h2><p>{stats.activeCalls}</p></div>
       </div>
+      <div className="current-calls-section">
+        <h2>Current Calls</h2>
 
+        {stats.currentCalls?.length === 0 ? (
+          <p>No active calls</p>
+        ) : (
+          stats.currentCalls.map(call => (
+            <div className="current-call-card" key={call.id}>
+              <strong>{call.label}</strong>
+              <span>{Math.floor(call.seconds / 60)}:{String(call.seconds % 60).padStart(2, '0')}</span>
+            </div>
+          ))
+        )}
+      </div>
       <div className="agents-section">
         <h2>Agents</h2>
 

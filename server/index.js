@@ -13,7 +13,7 @@ app.use(cors());
 CALLS TODAY
 ========================================
 */
-
+let activeCalls = [];
 app.get('/calls-today', async (req, res) => {
 
     try {
@@ -59,6 +59,36 @@ app.get('/calls-today', async (req, res) => {
             totalCalls += calls.length;
 
             calls.forEach(call => {
+                if (
+                    call.direction === 'inbound' &&
+                    call.answered_at === null &&
+                    call.ended_at === null
+                ) {
+                    activeCalls.push({
+                        id: call.id,
+                        label: 'Waiting',
+                        type: 'waiting',
+                        seconds: Math.floor(Date.now() / 1000) - call.started_at,
+                        raw_digits: call.raw_digits,
+                        number: call.number?.name
+                    });
+                }
+
+                if (
+                    call.direction === 'inbound' &&
+                    call.answered_at !== null &&
+                    call.ended_at === null
+                ) {
+                    activeCalls.push({
+                        id: call.id,
+                        label: `Talking to ${call.user?.name || 'Unknown'}`,
+                        type: 'talking',
+                        seconds: Math.floor(Date.now() / 1000) - call.answered_at,
+                        raw_digits: call.raw_digits,
+                        number: call.number?.name,
+                        user: call.user?.name
+                    });
+                }
 
                 if (call.direction === 'inbound') {
                     inboundCalls++;
@@ -116,6 +146,8 @@ app.get('/calls-today', async (req, res) => {
             averageWaitSeconds: answeredWaitCount
                 ? Math.round(totalWaitSeconds / answeredWaitCount)
                 : 0,
+            activeCalls: activeCalls.length,
+            currentCalls: activeCalls,
             note: "This counts all call records returned by Aircall since local midnight."
         }); 
 
