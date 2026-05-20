@@ -51,6 +51,7 @@ function App() {
     if (substatus === 'always_opened') return 'Available';
     if (substatus === 'always_closed') return 'Unavailable';
     if (substatus === 'doing_back_office') return 'Help Desk';
+    if (substatus === 'in_call') return 'In Call';
 
     return substatus
       .replace('doing_', '')

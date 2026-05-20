@@ -151,3 +151,7 @@ h1 {
   color: #cbd5e1;
   margin-top: 4px;
 }
+.status.in_call {
+  background: #b45309;
+  color: white;
+}

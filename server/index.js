@@ -395,9 +395,15 @@ const extraUserResponse = await axios.get(
 users.push(extraUserResponse.data.user);
 
 const now = Math.floor(Date.now() / 1000);
-
+const usersOnCalls = new Set(
+    cachedStats.currentCalls
+        ?.map(call => call.user)
+        .filter(Boolean)
+);
 const simplifiedUsers = users.map(user => {
-    const currentStatus = user.state;
+    const currentStatus = usersOnCalls.has(user.name)
+    ? 'in_call'
+    : user.state;
     const previousStatus = userStatusStartTimes[user.id];
 
     if (!previousStatus || previousStatus.status !== currentStatus) {
