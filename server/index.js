@@ -375,7 +375,10 @@ const refreshUsersCache = async () => {
                 }
             }
         );
-        const users = response.data.number.users || [];
+            const users =
+        response.data.number?.users ||
+        response.data.users ||
+        [];
 
 const simplifiedUsers = users.map(user => ({
     id: user.id,
