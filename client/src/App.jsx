@@ -11,6 +11,7 @@ function App() {
     inboundMissed: 0,
     averageWaitSeconds: 0,
     activeCalls: 0,
+    callbackRequests: 0,
     currentCalls: []
   });
 
@@ -64,7 +65,7 @@ function App() {
         <div className="card"><h2>Total Calls</h2><p>{stats.totalCalls}</p></div>
         <div className="card"><h2>Inbound</h2><p>{stats.inboundCalls}</p></div>
         <div className="card"><h2>Outbound</h2><p>{stats.outboundCalls}</p></div>
-        <div className="card"><h2>Completed</h2><p>{stats.inboundAnswered}</p></div>
+        <div className="card"><h2>Callbacks</h2><p>{stats.callbackRequests}</p></div>
         <div className="card"><h2>Active Calls</h2><p>{stats.activeCalls}</p></div>
         <div className="card"><h2>Avg Wait</h2><p>{Math.floor(stats.averageWaitSeconds / 60)}:{String(stats.averageWaitSeconds % 60).padStart(2, '0')}</p></div>
       </div>

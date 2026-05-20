@@ -27,6 +27,7 @@ app.get('/calls-today', async (req, res) => {
 
         let inboundCalls = 0;
         let outboundCalls = 0;
+        let callbackRequests = 0;
         let activeCalls = [];
         let inboundAnswered = 0;
         let inboundMissed = 0;
@@ -135,7 +136,9 @@ app.get('/calls-today', async (req, res) => {
                                 const isCallbackRequest = call.tags?.some(
                     tag => tag.name === 'Callback Request'
                 );
-
+                if (isCallbackRequest) {
+                    callbackRequests++;
+                }
                 if (
                     call.direction === 'inbound' &&
                     isCallbackRequest
@@ -183,6 +186,7 @@ app.get('/calls-today', async (req, res) => {
                 : 0,
             activeCalls: activeCalls.length,
             currentCalls: activeCalls,
+            callbackRequests,
             note: "This counts all call records returned by Aircall since local midnight."
         }); 
 
