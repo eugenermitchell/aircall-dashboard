@@ -161,7 +161,56 @@ app.get('/calls-today', async (req, res) => {
         });
     }
 });
+app.get('/debug/recent-calls-raw', async (req, res) => {
+  try {
+    const response = await axios.get(
+      'https://api.aircall.io/v1/calls?per_page=20',
+      {
+        auth: {
+          username: process.env.AIRCALL_ID,
+          password: process.env.AIRCALL_TOKEN
+        }
+      }
+    );
 
+    const calls = response.data.calls || [];
+
+    res.json({
+      count: calls.length,
+      calls: calls.map(call => ({
+        id: call.id,
+        direction: call.direction,
+        status: call.status,
+        started_at: call.started_at,
+        answered_at: call.answered_at,
+        ended_at: call.ended_at,
+        duration: call.duration,
+        raw_digits: call.raw_digits,
+        number: call.number?.name,
+        user: call.user?.name,
+
+        // important for discovery
+        tags: call.tags,
+        missed_call_reason: call.missed_call_reason,
+        voicemail: call.voicemail,
+        asset: call.asset,
+        comments: call.comments,
+        cost: call.cost,
+        recording: call.recording,
+        archived: call.archived,
+
+        // shows every available field name
+        raw_keys: Object.keys(call)
+      }))
+    });
+  } catch (error) {
+    console.error(error.response?.data || error.message);
+
+    res.status(500).json({
+      error: 'Failed to fetch raw recent calls'
+    });
+  }
+});
 /*
 ========================================
 WAITING CALLS
