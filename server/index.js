@@ -88,10 +88,6 @@ app.get('/calls-today', async (req, res) => {
                         user: call.user?.name
                     });
                 }
-
-                if (call.direction === 'inbound') {
-                    inboundCalls++;
-
                 if (
                     call.direction === 'outbound' &&
                     call.ended_at === null
@@ -106,7 +102,8 @@ app.get('/calls-today', async (req, res) => {
                         user: call.user?.name
                     });
                 }
-
+                if (call.direction === 'inbound') {
+                    inboundCalls++;
                 if (call.status === 'done') {
                      inboundAnswered++;
 
