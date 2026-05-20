@@ -49,8 +49,7 @@ h1 {
 
 .agents-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 320px));
-  justify-content: center;
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   margin-top: 20px;
 }
