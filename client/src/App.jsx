@@ -16,25 +16,25 @@ function App() {
 
   const [users, setUsers] = useState([]);
 
-useEffect(() => {
-  fetchUsers();
-
-  const usersInterval = setInterval(() => {
+  useEffect(() => {
     fetchUsers();
-  }, 3000);
 
-  return () => clearInterval(usersInterval);
-}, []);
+    const usersInterval = setInterval(() => {
+      fetchUsers();
+    }, 3000);
 
-useEffect(() => {
-  fetchStats();
+    return () => clearInterval(usersInterval);
+  }, []);
 
-  const statsInterval = setInterval(() => {
+  useEffect(() => {
     fetchStats();
-  }, 30000);
 
-  return () => clearInterval(statsInterval);
-}, []);
+    const statsInterval = setInterval(() => {
+      fetchStats();
+    }, 30000);
+
+    return () => clearInterval(statsInterval);
+  }, []);
 
   const fetchStats = async () => {
     const response = await axios.get('https://aircall-dashboard-api.onrender.com/calls-today');
@@ -62,66 +62,68 @@ useEffect(() => {
 
       <div className="stats-grid">
         <div className="card"><h2>Total Calls</h2><p>{stats.totalCalls}</p></div>
-        <div className="card"><h2>Inbound</h2><p>{stats.inboundCalls}</p></div>
+        <div className="card"><h2>I1nbound</h2><p>{stats.inboundCalls}</p></div>
         <div className="card"><h2>Outbound</h2><p>{stats.outboundCalls}</p></div>
         <div className="card"><h2>Completed</h2><p>{stats.inboundAnswered}</p></div>
-       <div className="card"><h2>Avg Wait</h2><p>{stats.averageWaitSeconds}s</p></div>
-       <div className="card"><h2>Active Calls</h2><p>{stats.activeCalls}</p></div>
+        <div className="card"><h2>Avg Wait</h2><p>{stats.averageWaitSeconds}s</p></div>
+        <div className="card"><h2>Active Calls</h2><p>{stats.activeCalls}</p></div>
       </div>
-      <div className="current-calls-section">
-        <h2>Current Calls</h2>
 
-        {stats.currentCalls?.length === 0 ? (
-          <p>No active calls</p>
-        ) : (
-          stats.currentCalls.map(call => (
-            <div className="current-call-card" key={call.id}>
-              <div>
-                <strong>{call.label}</strong>
-                <div className="call-number">{call.raw_digits}</div>
+      <div className="bottom-grid">
+        <div className="current-calls-section">
+          <h2>Current Calls</h2>
+
+          {stats.currentCalls?.length === 0 ? (
+            <p>No active calls</p>
+          ) : (
+            stats.currentCalls.map(call => (
+              <div className="current-call-card" key={call.id}>
+                <div>
+                  <strong>{call.label}</strong>
+                  <div className="call-number">{call.raw_digits}</div>
+                </div>
+
+                <span className="call-timer">
+                  {Math.floor(call.seconds / 60)}:{String(call.seconds % 60).padStart(2, '0')}
+                </span>
               </div>
+            ))
+          )}
+        </div>
 
-              <span className="call-timer">
-                {Math.floor(call.seconds / 60)}:{String(call.seconds % 60).padStart(2, '0')}
-              </span>
-            </div>
-          ))
-        )}
-      </div>
-      <div className="agents-section">
-        <h2>Agents</h2>
+        <div className="agents-section">
+          <h2>Agents</h2>
 
-        <div className="agents-grid">
-         {[...users]
-  .sort((a, b) => {
+          <div className="agents-grid">
+            {[...users]
+              .sort((a, b) => {
+                const order = {
+                  always_opened: 1,
+                  out_for_lunch: 2,
+                  on_a_break: 2,
+                  doing_back_office: 2,
+                  in_training: 2,
+                  always_closed: 3
+                };
 
-    const order = {
-      always_opened: 1,
-      out_for_lunch: 2,
-      on_a_break: 2,
-      doing_back_office: 2,
-      in_training: 2,
-      always_closed: 3
-    };
+                const aOrder = order[a.substatus] || 99;
+                const bOrder = order[b.substatus] || 99;
 
-    const aOrder = order[a.substatus] || 99;
-    const bOrder = order[b.substatus] || 99;
+                if (aOrder !== bOrder) {
+                  return aOrder - bOrder;
+                }
 
-    if (aOrder !== bOrder) {
-      return aOrder - bOrder;
-    }
-
-    return a.name.localeCompare(b.name);
-
-  })
-  .map(user => (
-            <div className="agent-card" key={user.id}>
-              <div className="agent-name">{user.name}</div>
-              <div className={`status ${user.substatus}`}>
-                {formatSubstatus(user.substatus)}
-              </div>
-            </div>
-          ))}
+                return a.name.localeCompare(b.name);
+              })
+              .map(user => (
+                <div className="agent-card" key={user.id}>
+                  <div className="agent-name">{user.name}</div>
+                  <div className={`status ${user.substatus}`}>
+                    {formatSubstatus(user.substatus)}
+                  </div>
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     </div>
