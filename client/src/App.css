@@ -139,3 +139,9 @@ h1 {
   font-size: 1.5rem;
   font-weight: bold;
 }
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+  align-items: start;
+}
