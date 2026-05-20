@@ -481,7 +481,7 @@ refreshUsersCache();
 setInterval(refreshUsersCache, 5000);
 
 refreshStatsCache();
-setInterval(refreshStatsCache, 30000);
+setInterval(refreshStatsCache, 10000);
 
 const PORT = process.env.PORT || 3001;
 
