@@ -367,7 +367,7 @@ app.get('/recent-call-statuses', async (req, res) => {
 const refreshUsersCache = async () => {
     try {
         const response = await axios.get(
-            'https://api.aircall.io/v1/users',
+            'https://api.aircall.io/v1/numbers/1228321',
             {
                 auth: {
                     username: process.env.AIRCALL_ID,
@@ -379,6 +379,18 @@ const refreshUsersCache = async () => {
         response.data.number?.users ||
         response.data.users ||
         [];
+        
+const extraUserResponse = await axios.get(
+    'https://api.aircall.io/v1/users/1888964',
+    {
+        auth: {
+            username: process.env.AIRCALL_ID,
+            password: process.env.AIRCALL_TOKEN
+        }
+    }
+);
+
+users.push(extraUserResponse.data.user);
 
 const simplifiedUsers = users.map(user => ({
     id: user.id,
