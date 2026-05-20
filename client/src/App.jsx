@@ -59,7 +59,7 @@ function App() {
 
   return (
     <div className="dashboard">
-      <h1>Aircall Dashboard</h1>
+      <h1>CCI Support Dashboard</h1>
 
       <div className="stats-grid">
         <div className="card"><h2>Total Calls</h2><p>{stats.totalCalls}</p></div>
