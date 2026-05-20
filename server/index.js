@@ -92,6 +92,21 @@ app.get('/calls-today', async (req, res) => {
                 if (call.direction === 'inbound') {
                     inboundCalls++;
 
+                if (
+                    call.direction === 'outbound' &&
+                    call.ended_at === null
+                ) {
+                    activeCalls.push({
+                        id: call.id,
+                        label: `Outbound with ${call.user?.name || 'Unknown'}`,
+                        type: 'outbound',
+                        seconds: Math.floor(Date.now() / 1000) - call.started_at,
+                        raw_digits: call.raw_digits,
+                        number: call.number?.name,
+                        user: call.user?.name
+                    });
+                }
+
                 if (call.status === 'done') {
                      inboundAnswered++;
 
