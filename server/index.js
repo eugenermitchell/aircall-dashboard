@@ -13,7 +13,6 @@ app.use(cors());
 CALLS TODAY
 ========================================
 */
-let activeCalls = [];
 app.get('/calls-today', async (req, res) => {
 
     try {
@@ -28,7 +27,7 @@ app.get('/calls-today', async (req, res) => {
 
         let inboundCalls = 0;
         let outboundCalls = 0;
-
+        let activeCalls = [];
         let inboundAnswered = 0;
         let inboundMissed = 0;
         let inboundOther = 0;
