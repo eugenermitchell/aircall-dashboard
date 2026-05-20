@@ -45,6 +45,7 @@ app.get('/calls-today', async (req, res) => {
             console.log(`Fetching page ${page}...`);
 
             const response = await axios.get(
+
                 `https://api.aircall.io/v1/calls?from=${from}&per_page=50&page=${page}`,
                 {
                     auth: {
@@ -53,7 +54,9 @@ app.get('/calls-today', async (req, res) => {
                     }
                 }
             );
-
+                    console.log('Rate Limit Remaining:', response.headers['x-ratelimit-remaining']);
+                    console.log('Rate Limit Limit:', response.headers['x-ratelimit-limit']);
+                    console.log('Rate Limit Reset:', response.headers['x-ratelimit-reset']);
             const calls = response.data.calls || [];
 
             totalCalls += calls.length;
