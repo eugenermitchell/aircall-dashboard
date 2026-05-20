@@ -155,3 +155,16 @@ h1 {
   background-color: #14532d;
   color: #86efac;
 }
+.call-timer.warning {
+  background: #b45309;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 10px;
+}
+
+.call-timer.danger {
+  background: #b91c1c;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 10px;
+}

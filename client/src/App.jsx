@@ -86,7 +86,15 @@ function App() {
                   <div className="call-number">{call.raw_digits}</div>
                 </div>
 
-                <span className="call-timer">
+                <span
+                  className={`call-timer ${
+                    call.seconds >= 7200
+                      ? 'danger'
+                      : call.seconds >= 3600
+                      ? 'warning'
+                      : ''
+                  }`}
+                >
                   {Math.floor(call.seconds / 60)}:{String(call.seconds % 60).padStart(2, '0')}
                 </span>
               </div>
