@@ -22,7 +22,7 @@ function App() {
 
     const usersInterval = setInterval(() => {
       fetchUsers();
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(usersInterval);
   }, []);
@@ -32,7 +32,7 @@ function App() {
 
     const statsInterval = setInterval(() => {
       fetchStats();
-    }, 30000);
+    }, 3000);
 
     return () => clearInterval(statsInterval);
   }, []);
