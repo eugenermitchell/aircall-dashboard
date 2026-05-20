@@ -414,7 +414,9 @@ const simplifiedUsers = users.map(user => {
         availability_status: user.availability_status,
         substatus: currentStatus,
         available: user.available,
-        statusSeconds: now - userStatusStartTimes[user.id].startedAt
+        statusSeconds: userStatusStartTimes[user.id]
+    ? now - userStatusStartTimes[user.id].startedAt
+    : 0
     };
 });
 
