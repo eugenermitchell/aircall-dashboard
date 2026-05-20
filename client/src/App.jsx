@@ -102,12 +102,12 @@ function App() {
               .sort((a, b) => {
                 const order = {
                   always_opened: 1,
-                  in_call: 1,
-                  out_for_lunch: 2,
-                  on_a_break: 2,
-                  doing_back_office: 2,
-                  in_training: 2,
-                  always_closed: 3
+                  in_call: 2,
+                  doing_back_office: 3,
+                  out_for_lunch: 4,
+                  on_a_break: 4,
+                  in_training: 4,
+                  always_closed: 5
                 };
 
                 const aOrder = order[a.substatus] || 99;
