@@ -50,6 +50,7 @@ function App() {
   const formatSubstatus = (substatus) => {
     if (substatus === 'always_opened') return 'Available';
     if (substatus === 'always_closed') return 'Unavailable';
+    if (substatus === 'doing_back_office') return 'Help Desk';
 
     return substatus
       .replace('doing_', '')
