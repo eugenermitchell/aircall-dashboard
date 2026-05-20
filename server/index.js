@@ -8,6 +8,13 @@ const app = express();
 
 app.use(cors());
 
+let cachedUsers = {
+    count: 0,
+    users: [],
+    lastUpdated: null,
+    error: null
+};
+
 /*
 ========================================
 CALLS TODAY
@@ -340,7 +347,7 @@ app.get('/recent-call-statuses', async (req, res) => {
         });
     }
 });
-app.get('/users', async (req, res) => {
+const refreshUsersCache = async () => {
     try {
         const response = await axios.get(
             'https://api.aircall.io/v1/numbers/1228321',
@@ -351,7 +358,6 @@ app.get('/users', async (req, res) => {
                 }
             }
         );
-
         const users = response.data.number.users || [];
 
 const simplifiedUsers = users.map(user => ({
@@ -363,18 +369,24 @@ const simplifiedUsers = users.map(user => ({
     available: user.available
 }));
 
-        res.json({
-            count: simplifiedUsers.length,
-            users: simplifiedUsers
-        });
+            cachedUsers = {
+                count: simplifiedUsers.length,
+                users: simplifiedUsers,
+                lastUpdated: new Date().toISOString(),
+                error: null
+            };
+
+            console.log('Users cache refreshed');
 
     } catch (error) {
         console.error(error.response?.data || error.message);
 
-        res.status(500).json({
-            error: 'Failed to fetch users from Aircall V2'
-        });
+        cachedUsers.error = 'Failed to refresh users cache';
     }
+
+};
+app.get('/users', (req, res) => {
+    res.json(cachedUsers);
 });
 app.get('/debug-user/:id', async (req, res) => {
     try {
@@ -448,6 +460,8 @@ app.get('/debug/*path', async (req, res) => {
     }
 
 });
+refreshUsersCache();
+setInterval(refreshUsersCache, 5000);
 
 const PORT = process.env.PORT || 3001;
 
