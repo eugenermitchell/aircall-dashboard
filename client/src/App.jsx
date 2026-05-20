@@ -102,6 +102,7 @@ function App() {
               .sort((a, b) => {
                 const order = {
                   always_opened: 1,
+                  in_call: 1,
                   out_for_lunch: 2,
                   on_a_break: 2,
                   doing_back_office: 2,
