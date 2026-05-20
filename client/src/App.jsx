@@ -31,7 +31,7 @@ function App() {
 
     const statsInterval = setInterval(() => {
       fetchStats();
-    }, 30000);
+    }, 10000);
 
     return () => clearInterval(statsInterval);
   }, []);
