@@ -164,7 +164,7 @@ app.get('/calls-today', async (req, res) => {
 app.get('/debug/recent-calls-raw', async (req, res) => {
   try {
     const response = await axios.get(
-      'https://api.aircall.io/v1/calls?per_page=20',
+      'https://api.aircall.io/v1/calls?order=desc&per_page=20',
       {
         auth: {
           username: process.env.AIRCALL_ID,
