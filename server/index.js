@@ -14,14 +14,28 @@ let cachedUsers = {
     lastUpdated: null,
     error: null
 };
+let cachedStats = {
+    totalCalls: 0,
+    inboundCalls: 0,
+    outboundCalls: 0,
+    inboundAnswered: 0,
+    inboundMissed: 0,
+    inboundOther: 0,
+    inboundOtherCalls: [],
+    averageWaitSeconds: 0,
+    activeCalls: 0,
+    currentCalls: [],
+    callbackRequests: 0,
+    lastUpdated: null,
+    error: null
+};
 
 /*
 ========================================
 CALLS TODAY
 ========================================
 */
-app.get('/calls-today', async (req, res) => {
-
+const refreshStatsCache = async () => {
     try {
 
         const today = new Date();
@@ -183,33 +197,36 @@ app.get('/calls-today', async (req, res) => {
             page++;
         }
 
-        res.json({
-            totalCalls,
-            inboundCalls,
-            outboundCalls,
-            inboundAnswered,
-            inboundMissed,
-            inboundOther,
-            inboundOtherCalls,
-            averageWaitSeconds: answeredWaitCount
-                ? Math.round(totalWaitSeconds / answeredWaitCount)
-                : 0,
-            activeCalls: activeCalls.length,
-            currentCalls: activeCalls,
-            callbackRequests,
-            note: "This counts all call records returned by Aircall since local midnight."
-        }); 
+cachedStats = {
+    totalCalls,
+    inboundCalls,
+    outboundCalls,
+    inboundAnswered,
+    inboundMissed,
+    inboundOther,
+    inboundOtherCalls,
+    averageWaitSeconds: answeredWaitCount
+        ? Math.round(totalWaitSeconds / answeredWaitCount)
+        : 0,
+    activeCalls: activeCalls.length,
+    currentCalls: activeCalls,
+    callbackRequests,
+    lastUpdated: new Date().toISOString(),
+    error: null
+};
 
+console.log('Stats cache refreshed');
     } catch (error) {
 
         console.error('ERROR:');
 
         console.error(error.response?.data || error.message);
 
-        res.status(500).json({
-            error: 'Failed to fetch calls from Aircall'
-        });
+        cachedStats.error = 'Failed to refresh stats cache';
     }
+});
+app.get('/calls-today', (req, res) => {
+    res.json(cachedStats);
 });
 app.get('/debug/recent-calls-raw', async (req, res) => {
   try {
@@ -462,6 +479,9 @@ app.get('/debug/*path', async (req, res) => {
 });
 refreshUsersCache();
 setInterval(refreshUsersCache, 5000);
+
+refreshStatsCache();
+setInterval(refreshStatsCache, 30000);
 
 const PORT = process.env.PORT || 3001;
 
