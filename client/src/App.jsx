@@ -76,8 +76,14 @@ useEffect(() => {
         ) : (
           stats.currentCalls.map(call => (
             <div className="current-call-card" key={call.id}>
-              <strong>{call.label}</strong>
-              <span>{Math.floor(call.seconds / 60)}:{String(call.seconds % 60).padStart(2, '0')}</span>
+              <div>
+                <strong>{call.label}</strong>
+                <div className="call-number">{call.raw_digits}</div>
+              </div>
+
+              <span className="call-timer">
+                {Math.floor(call.seconds / 60)}:{String(call.seconds % 60).padStart(2, '0')}
+              </span>
             </div>
           ))
         )}
