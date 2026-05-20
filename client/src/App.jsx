@@ -9,7 +9,7 @@ function App() {
     outboundCalls: 0,
     inboundAnswered: 0,
     inboundMissed: 0,
-    averageWaitSeconds: 0
+    averageWaitSeconds: 0,
     activeCalls: 0,
     currentCalls: []
   });
